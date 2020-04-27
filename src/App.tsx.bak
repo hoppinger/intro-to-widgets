@@ -1,0 +1,49 @@
+import React from 'react'
+import './App.css'
+
+import { Fun, fromJSX, Widget, stateful, Action, any, mkWidget, number } from "widgets-for-react"
+import { Entity, setter } from "ts-lenses"
+import { TextField } from 'office-ui-fabric-react/lib/TextField'
+import { Stack } from 'office-ui-fabric-react/lib/Stack'
+
+const savePerson : Fun<Person, Promise<{}>> = p => new Promise((res, rej) => {
+  setTimeout(_ => {
+    if (Math.random() <= 0.9) {
+      rej("Bad connection :'(")
+    } else { 
+      res({})
+    }
+  }, Math.random() * 500 + 250)
+})
+
+interface Person {
+  name:string,
+  surname:string,
+  age:number
+}
+
+type AppState = { data:Person, status?:"saving" }
+
+class App extends React.Component<{}, AppState> {
+  constructor(props:{}, context:any) {
+    super(props, context)
+
+    this.state = { data:{ name:"", surname:"", age:18 } }
+  }
+
+  render() : JSX.Element {
+    console.log("The component is being re-rendered with state", this.state)
+    return (
+      <div className="App">
+        <input value={this.state.data.name} onChange={e => this.setState({...this.state, data:{...this.state.data, name:e.currentTarget.value } })} />
+        <input value={this.state.data.surname} onChange={e => this.setState({...this.state, data:{...this.state.data, surname:e.currentTarget.value } })} />
+        <input type={"number"} value={this.state.data.age} onChange={e => this.setState({...this.state, data:{...this.state.data, age:e.currentTarget.valueAsNumber } })} />
+        <button onClick={_ =>
+          savePerson(this.state.data)
+        }>Save</button>
+      </div>
+    )
+  }
+}
+
+export default App;
