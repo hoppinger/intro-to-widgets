@@ -81,14 +81,15 @@ const CTAbodyWithImage = () : JSX.Element => (
       <div className="ms-Grid-col ms-sm6">
         {CTAbody("start")}
       </div>
-      <div className="ms-Grid-col ms-sm6">
-        <Stack gap="5">
+      <div className="ms-Grid-col ms-sm6" style={{height:"100%", display:"flex"}}>
+        <Stack gap="5" grow={1}>
           <Image 
+            style={{objectFit:"cover"}}
             width="100%"
+            height="100%"
             src="http://placehold.it/1000x500"
             alt="Some text"
           />
-          <Label>Some optional camption here</Label>
         </Stack>
       </div>
     </div>
