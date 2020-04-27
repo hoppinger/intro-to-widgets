@@ -96,21 +96,24 @@ const CTAbodyWithImage = () : JSX.Element => (
   </Stack>
 )
 
+const responsive = (large:JSX.Element, small:JSX.Element) =>
+  <div className="ms-Grid" dir="ltr">
+  <div className="ms-Grid-row">
+    <div className="ms-Grid ms-sm12 ms-hiddenLgUp">
+      {small}
+    </div>
+    <div className="ms-Grid ms-sm12 ms-hiddenMdDown">
+      {large}
+    </div>
+  </div>
+  </div>
+
+
 const App = (): JSX.Element =>
   stateful<AppState>()(s0 =>
     any<Action<AppState>>()([
       fromJSX(_ =>
-        <div className="ms-Grid" dir="ltr">
-          <div className="ms-Grid-row">
-            <div className="ms-Grid ms-sm12 ms-hiddenLgUp">
-              {CTAbody("center")}
-            </div>
-            <div className="ms-Grid ms-sm12 ms-hiddenMdDown">
-              {CTAbodyWithImage()}
-            </div>
-          </div>
-        </div>
-
+        responsive(CTAbodyWithImage(), CTAbody("center"))
       )
     ]).map(updater => updater(s0))
   )("good")
